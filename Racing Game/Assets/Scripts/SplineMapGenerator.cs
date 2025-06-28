@@ -7,7 +7,7 @@ public class SplineHighwayGenerator : MonoBehaviour
     [Header("Spline Settings")]
     public int numPoints = 10000;
     public float segmentLength = 1f;
-    public float maxTurnAngle = 25f; // in degrees
+    public float maxTurnAngle = 25f;
 
     [Header("Spline Output")]
     public List<Vector3> splinePoints = new List<Vector3>();
