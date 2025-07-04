@@ -404,6 +404,7 @@
 "Assets/Scripts/PrometeoTouchInput.cs"
 "Assets/Scripts/SplineMapGenerator.cs"
 "Assets/Scripts/Traffic.cs"
+"Assets/Scripts/UI.cs"
 -langversion:9.0
 /deterministic
 /optimize+
