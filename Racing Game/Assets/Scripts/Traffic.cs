@@ -4,27 +4,33 @@ using System.Collections.Generic;
 public class Traffic : MonoBehaviour
 {
     public SplineHighwayGenerator spline;
-    public float speed = 10f;
+    public float speed;
     public float reachThreshold = 0.5f;
-
+    private int currentLane;
     private int currentIndex = 0;
     private List<Vector3> path;
 
     void Start()
     {
+        speed = Random.Range(5f, 15f);
+
         if (spline == null)
         {
             spline = GameObject.FindWithTag("Spline")?.GetComponent<SplineHighwayGenerator>();
         }
 
-        if (spline == null || spline.splinePoints.Count == 0)
+        if (spline == null || spline.lanePoints.Count == 0)
         {
             Debug.LogError("Spline not found or empty.");
             enabled = false;
             return;
         }
 
-        path = spline.splinePoints;
+        // Randomly assign a lane to this vehicle
+        currentLane = Random.Range(0, spline.numberOfLanes);
+        path = spline.lanePoints[currentLane];
+
+        // Position the vehicle at the start of its assigned lane
         transform.position = path[0];
         currentIndex = 1;
     }

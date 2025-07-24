@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.unity.collab-proxy": "2.8.1",
+    "com.unity.collab-proxy": "2.8.2",
     "com.unity.multiplayer.center": "1.0.0",
     "com.unity.shadergraph": "17.1.0",
     "com.unity.splines": "2.8.1",

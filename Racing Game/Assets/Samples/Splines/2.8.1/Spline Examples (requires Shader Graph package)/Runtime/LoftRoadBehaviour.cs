@@ -254,6 +254,10 @@ namespace Unity.Splines.Examples
             LoftMesh.UploadMeshData(false);
 
             GetComponent<MeshFilter>().sharedMesh = m_Mesh;
+            MeshCollider meshCollider = GetComponent<MeshCollider>();
+        if (meshCollider == null)
+            meshCollider = gameObject.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = LoftMesh;
         }
 
         public void Loft(Spline spline, int widthDataIndex)

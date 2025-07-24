@@ -8,7 +8,7 @@ public class SplineHighwayGenerator : MonoBehaviour
     public int numPoints = 50;
     public float segmentLength = 2f;
     public float maxTurnAngle = 10f;
-    public float roadWidth = 10f;
+    public float roadWidth = 8f;
     public int smoothingResolution = 100;
 
     [Header("Road Visuals")]
@@ -17,12 +17,20 @@ public class SplineHighwayGenerator : MonoBehaviour
     [HideInInspector]
     public List<Vector3> splinePoints = new List<Vector3>();
 
+    public int numberOfLanes = 4;
+    private float laneWidth;
+
+    [HideInInspector]
+    public List<List<Vector3>> lanePoints = new List<List<Vector3>>();
+
     private Mesh roadMesh;
 
     void Start()
     {
+        laneWidth = roadWidth / numberOfLanes;
         GenerateSpline();
         GenerateRoadMesh();
+        GenerateLanePoints();
     }
 
     public void GenerateSpline()
@@ -121,6 +129,35 @@ public class SplineHighwayGenerator : MonoBehaviour
         if (roadMaterial != null)
         {
             GetComponent<MeshRenderer>().sharedMaterial = roadMaterial;
+        }
+    }
+
+    private void GenerateLanePoints()
+    {
+        var smoothedPoints = GetSmoothedPoints();
+        lanePoints.Clear();
+
+        // Initialize lists for each lane
+        for (int lane = 0; lane < numberOfLanes; lane++)
+        {
+            lanePoints.Add(new List<Vector3>());
+        }
+
+        // Calculate points for each lane
+        for (int i = 0; i < smoothedPoints.Count - 1; i++)
+        {
+            Vector3 start = smoothedPoints[i];
+            Vector3 end = smoothedPoints[i + 1];
+            Vector3 direction = (end - start).normalized;
+            Vector3 right = Vector3.Cross(Vector3.up, direction);
+
+            // Calculate lane offsets from the center
+            for (int lane = 0; lane < numberOfLanes; lane++)
+            {
+                float laneOffset = (lane - (numberOfLanes - 1) / 2.0f) * laneWidth;
+                Vector3 lanePoint = start + right * laneOffset;
+                lanePoints[lane].Add(lanePoint);
+            }
         }
     }
 }
